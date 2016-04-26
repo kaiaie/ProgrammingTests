@@ -2,6 +2,7 @@
 using System.Linq;
 using Data;
 using Data.Interfaces;
+using System.Text;
 
 namespace ProgrammingTests
 {
@@ -17,12 +18,12 @@ namespace ProgrammingTests
             /*
              * Object Model redesign and implementation tasks
              * 
-             * 1. Read through the object model and data used to create our test repository
-             * 2. Write an abstract class from which IrishCompany, SoleTrader and ForeignCompany will inherit
+             * 1. Read through the object model and data used to create our test repository DONE
+             * 2. Write an abstract class from which IrishCompany, SoleTrader and ForeignCompany will inherit DONE
              * 3. Write an Interface for the Address Class, implement it and refactor 
-             *    all classes which require an address to use the new interface instead. 
-             * 4. Implement FindAllCompanies method in Test Repository
-             * 5. Implement NumberOfYearsEmployed property on Employment.
+             *    all classes which require an address to use the new interface instead. DONE
+             * 4. Implement FindAllCompanies method in Test Repository DONE
+             * 5. Implement NumberOfYearsEmployed property on Employment. DONE
              */
 
             /*
@@ -44,6 +45,20 @@ namespace ProgrammingTests
 
         public static void TestLinqQueries()
         {
+            // 1. Get Count of all Companies(Sole traders, Irish and Foreign Companies) in the "Database"
+            Console.WriteLine(_testRepository.FindAllCompanies().Count);
+            // 2. Write a linq query to find all Employees still employed by Company "Irish1" and write out their names
+            var company = _testRepository.FindAllCompanies().FirstOrDefault(c => c.Name == "Irish1");
+            if (company != null)
+            {
+                foreach (var emp in company.Employments.Where(e => !e.EmploymentEndDate.HasValue || e.EmploymentEndDate.Value > DateTime.Now))
+                {
+                    Console.WriteLine(emp.Employee.Name);
+                }
+            }
+
+            // 3. Write a query to find the total number of years that all employees(still employed or not) have worked.
+            Console.WriteLine(company.Employments.Sum(e => e.NumberOfYearsEmployed));
         }
 
         public static void TestAlgorithms()
@@ -78,12 +93,33 @@ namespace ProgrammingTests
              * else print the number
              * 
              */
+            var result = new StringBuilder();
+            foreach (var value in Enumerable.Range(1, 100))
+            {
+                result.Clear();
+                if ((value % 3 == 0) || (value % 5 == 0))
+                {
+                    if ((value % 3) == 0)
+                    {
+                        result.Append("Fizz");
+                    }
+                    if ((value % 5) == 0)
+                    {
+                        result.Append("Buzz");
+                    }
+                }
+                else
+                {
+                    result.Append(value);
+                }
+                Console.WriteLine(result.ToString());
+            }
         }
 
         /// <summary>
         /// </summary>
-        /// <param name="sentance"></param>
-        public static string ReverseWords(string sentance)
+        /// <param name="sentence"></param>
+        public static string ReverseWords(string sentence)
         {
             /*
              * write a function to reverse the words in a string which 
@@ -93,7 +129,9 @@ namespace ProgrammingTests
              * 
              * Bonus Points if you can write this as an Extension Method
              */
-            return String.Empty;
+            var result = sentence.ReverseWords();
+            Console.WriteLine(result);
+            return result;
         }
     }
 }

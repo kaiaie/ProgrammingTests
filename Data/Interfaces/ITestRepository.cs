@@ -5,6 +5,6 @@ namespace Data.Interfaces
 {
     public interface ITestRepository
     {
-        List<Company> FindAllCompanies();
+        List<Business> FindAllCompanies();
     }
 }

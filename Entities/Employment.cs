@@ -16,7 +16,13 @@ namespace Entities
         /// <returns></returns>
         public double NumberOfYearsEmployed
         {
-            get { return 0; }
+            get
+            {
+                return Math.Abs(
+                    (EmploymentEndDate.HasValue ? EmploymentEndDate.Value.Year : DateTime.Now.Year) 
+                    - EmployementStartDate.Year
+                );
+            }
         }
     }
 }
